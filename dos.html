@@ -1,348 +1,76 @@
 <!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>دکمهٔ دانلود</title>
-  <style>
-    :root{
-      --bg1: #0f172a;
-      --bg2: #071032;
-      --card: rgba(255,255,255,0.06);
-      --glass: rgba(255,255,255,0.04);
-      --accent: linear-gradient(135deg,#7c3aed,#06b6d4);
-      --glass-border: rgba(255,255,255,0.06);
-      --text: #e6eef8;
-      --muted: #9fb0d8;
-      --success: #10b981;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>دانلود فایل</title>
+
+<style>
     body{
-      margin:0;
-      font-family: "Vazirmatn", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-      background: radial-gradient(1200px 600px at 10% 10%, rgba(12,34,63,0.7), transparent),
-                  linear-gradient(180deg,var(--bg1),var(--bg2));
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:28px;
+        margin:0;
+        font-family:"Vazirmatn",sans-serif;
+        background:linear-gradient(135deg,#0f172a,#1e293b);
+        color:white;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        text-align:center;
     }
-
-    .wrap{
-      width:100%;
-      max-width:860px;
-      border-radius:20px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      padding:34px;
-      box-shadow: 0 10px 40px rgba(2,6,23,0.6);
-      border:1px solid rgba(255,255,255,0.03);
-      backdrop-filter: blur(8px) saturate(120%);
-      display:grid;
-      grid-template-columns: 1fr 380px;
-      gap:24px;
-      align-items:center;
-    }
-
-    .left {
-      padding:12px 18px;
+    .box{
+        background:rgba(255,255,255,0.06);
+        padding:40px 28px;
+        border-radius:20px;
+        backdrop-filter:blur(8px);
+        width:90%;
+        max-width:420px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.35);
     }
     h1{
-      margin:0 0 10px 0;
-      font-size:22px;
-      letter-spacing:0.2px;
+        margin:0 0 18px 0;
+        font-size:22px;
     }
-    p.lead{
-      margin:0 0 20px 0;
-      color:var(--muted);
-      line-height:1.6;
+    a.download-btn{
+        display:inline-block;
+        background:linear-gradient(135deg,#7c3aed,#06b6d4);
+        padding:14px 26px;
+        border-radius:14px;
+        color:white;
+        text-decoration:none;
+        font-size:17px;
+        font-weight:bold;
+        box-shadow:0 6px 18px rgba(0,0,0,0.35);
+        transition:.2s;
     }
-
-    /* big download card */
-    .download-card{
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:14px;
-      padding:22px;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      border:1px solid var(--glass-border);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+    a.download-btn:hover{
+        transform:scale(1.04);
     }
-
-    .file-meta {
-      flex:1;
-      min-width:0;
-    }
-    .file-name{
-      display:block;
-      font-weight:600;
-      color:var(--text);
-      font-size:15px;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .file-desc{
-      margin-top:6px;
-      font-size:13px;
-      color:var(--muted);
-    }
-
-    /* fancy button */
-    .btn-wrap{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
-    button.download-btn{
-      appearance:none;
-      border:0;
-      cursor:pointer;
-      padding:12px 18px;
-      border-radius:12px;
-      font-weight:700;
-      font-size:15px;
-      color:white;
-      background-image: var(--accent);
-      box-shadow: 0 8px 24px rgba(12,34,63,0.6), 0 2px 6px rgba(0,0,0,0.4);
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      transform: translateZ(0);
-      transition: transform .16s ease, box-shadow .16s ease, opacity .12s ease;
-    }
-    button.download-btn:active{ transform: translateY(2px) scale(.996); }
-    button.download-btn[disabled]{ opacity:.65; cursor:default; box-shadow:none; transform:none; }
-
-    .btn-ico{
-      width:20px;height:20px; display:inline-block;
-      background:rgba(255,255,255,0.12);
-      border-radius:6px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      backdrop-filter: blur(4px);
-    }
-
-    /* progress / status */
-    .status {
-      margin-top:12px;
-      font-size:13px;
-      color:var(--muted);
-      display:flex;
-      gap:10px;
-      align-items:center;
-    }
-    .progress {
-      height:8px;
-      background:rgba(255,255,255,0.04);
-      border-radius:999px;
-      overflow:hidden;
-      width:220px;
-    }
-    .progress > span{
-      display:block;
-      height:100%;
-      width:0%;
-      background: linear-gradient(90deg,#34d399,#06b6d4);
-      transition: width .18s linear;
-    }
-
-    /* right side decorative */
-    .hero {
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:100%;
-      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
-      border-radius:12px;
-      padding:18px;
-      border:1px solid rgba(255,255,255,0.02);
-      min-height:160px;
-    }
-    .icon-circle{
-      width:120px;height:120px;border-radius:20px;
-      display:flex;align-items:center;justify-content:center;
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      box-shadow: 0 10px 30px rgba(3,7,18,0.6);
-      border:1px solid rgba(255,255,255,0.03);
-    }
-
     footer{
-      grid-column: 1 / -1;
-      margin-top:18px;
-      text-align:center;
-      font-size:13px;
-      color:var(--muted);
-      opacity:0.95;
+        margin-top:28px;
+        font-size:13px;
+        opacity:0.85;
+        line-height:1.8;
     }
-    footer strong{ color:var(--text); font-weight:700 }
+</style>
 
-    @media (max-width:880px){
-      .wrap{ grid-template-columns: 1fr; padding:18px; }
-      .hero{ order:-1; margin-bottom:6px }
-    }
-  </style>
 </head>
 <body>
-  <div class="wrap" role="main" aria-labelledby="title">
-    <div class="left">
-      <h1 id="title">فایل برای دانلود آماده است</h1>
-      <p class="lead">برای دانلود فایل، دکمهٔ زیر را فشار دهید. این دکمه از روش امن fetch → blob استفاده می‌کند تا دانلود حتی از منابع خارجی نیز قابل اطمینان باشد.</p>
 
-      <div class="download-card" aria-live="polite">
-        <div class="file-meta">
-          <span class="file-name" id="fileName">نام فایل: —</span>
-          <span class="file-desc" id="fileDesc">حجم و فرمت فایل پس از آغاز دانلود نمایش داده خواهد شد.</span>
+<div class="box">
+    <h1>دانلود فایل</h1>
 
-          <div class="status" style="margin-top:12px;">
-            <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
-            <div id="statusText" style="min-width:120px;">آماده</div>
-          </div>
-        </div>
-
-        <div class="btn-wrap" style="min-width:180px;justify-content:flex-start">
-          <button id="downloadBtn" class="download-btn" title="دانلود فایل">
-            <span class="btn-ico" aria-hidden="true">
-              <!-- download svg -->
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M12 3v12" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M21 15v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M7 10l5 5 5-5" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            دانلود فایل
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="hero" aria-hidden="true">
-      <div class="icon-circle">
-        <!-- decorative SVG -->
-        <svg width="86" height="86" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <rect x="2" y="3" width="20" height="14" rx="2" stroke="rgba(255,255,255,0.12)" stroke-width="1.2"/>
-          <path d="M8 13v3m8-3v3" stroke="rgba(255,255,255,0.12)" stroke-width="1.2" stroke-linecap="round"/>
-          <path d="M12 3v6" stroke="rgba(255,255,255,0.12)" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
-      </div>
-    </div>
+    <!-- اینجا فقط لینک رو گذاشتم -->
+    <a class="download-btn"
+       href="https://a-99-dev.github.io/Karo/1000041345_LE_auto_x4.jpg"
+       download>
+        دانلود تصویر
+    </a>
 
     <footer>
-      <div>ساخته شده توسط <strong>امیر مهدی زمانی</strong></div>
-      <div style="margin-top:6px">نام هم‌گروهی‌ها: <strong>آرمین مطیعی</strong>، <strong>آرمان جاویدی</strong> و <strong>محمد حسن سعادت</strong></div>
+        ساخته شده توسط <strong>امیر مهدی زمانی</strong><br>
+        هم‌گروهی‌ها: <strong>آرمین مطیعی</strong> – <strong>آرمان جاویدی</strong> – <strong>محمد حسن سعادت</strong>
     </footer>
-  </div>
+</div>
 
-  <script>
-    // ======= تنظیمات: فقط اینجا را با آدرس فایلِ واقعی‌ت پر کن =======
-    const fileUrl = "https://a-99-dev
-    github.io/Karo/1000041345_LE_auto_x4.jpg"; // مثال: https://raw.githubusercontent.com/username/repo/branch/path/to/file.png
-    const downloadFilename = "downloaded-file.png"; // نام پیش‌فرض فایل هنگام دانلود
-
-    // المان‌ها
-    const btn = document.getElementById('downloadBtn');
-    const progressBar = document.getElementById('progressBar');
-    const statusText = document.getElementById('statusText');
-    const fileNameEl = document.getElementById('fileName');
-    const fileDescEl = document.getElementById('fileDesc');
-
-    // پیش‌نمایش نام/آماده‌سازی
-    fileNameEl.textContent = "نام فایل: " + (downloadFilename || "بدون نام");
-    fileDescEl.textContent = "هنوز دانلودی شروع نشده است.";
-
-    // دانلود امن (fetch -> blob) با نمایش پیشرفت (در صورت پشتیبانی)
-    async function downloadFile(url, filename) {
-      if (!url || url === "PUT_YOUR_FILE_URL_HERE") {
-        alert("آدرس فایل تنظیم نشده — لطفاً مقدار متغیر fileUrl را در کد تغییر بده.");
-        return;
-      }
-
-      try {
-        btn.disabled = true;
-        statusText.textContent = "در حال برقرار کردن ارتباط...";
-        progressBar.style.width = "0%";
-
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("خطا: " + response.status + " " + response.statusText);
-
-        // دریافت اطلاعات هدر (حجم و نوع)
-        const contentLength = response.headers.get('Content-Length');
-        const contentType = response.headers.get('Content-Type') || 'نامشخص';
-        if (contentLength) {
-          fileDescEl.textContent = `فرمت: ${contentType} — حجم تقریبی: ${Math.round(contentLength/1024)} کیلوبایت`;
-        } else {
-          fileDescEl.textContent = `فرمت: ${contentType} — حجم: نامشخص`;
-        }
-
-        // اگر مرورگر از body.getReader پشتیبانی کند، حجم دانلود را نشان می‌دهیم
-        if (response.body && typeof response.body.getReader === 'function') {
-          statusText.textContent = "در حال دانلود...";
-          const reader = response.body.getReader();
-          const total = contentLength ? parseInt(contentLength, 10) : null;
-          let received = 0;
-          const chunks = [];
-
-          while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
-            chunks.push(value);
-            received += value.length;
-            if (total) {
-              const perc = Math.round((received / total) * 100);
-              progressBar.style.width = perc + "%";
-              statusText.textContent = `در حال دانلود... ${perc}%`;
-            } else {
-              // اندکی انیمیت وقتی اندازه مشخص نیست
-              const perc = Math.min(95, Math.round((received / 500000) * 100));
-              progressBar.style.width = perc + "%";
-              statusText.textContent = `در حال دانلود...`;
-            }
-          }
-
-          // ساخت blob از قطعات
-          const blob = new Blob(chunks);
-          const blobUrl = URL.createObjectURL(blob);
-          triggerDownload(blobUrl, filename);
-          URL.revokeObjectURL(blobUrl);
-        } else {
-          // fallback ساده: تبدیل به blob مستقیم
-          statusText.textContent = "در حال دریافت فایل...";
-          const blob = await response.blob();
-          const blobUrl = URL.createObjectURL(blob);
-          progressBar.style.width = "100%";
-          statusText.textContent = "پایان دانلود";
-          triggerDownload(blobUrl, filename);
-          URL.revokeObjectURL(blobUrl);
-        }
-
-        statusText.textContent = "دانلود کامل شد";
-      } catch (err) {
-        console.error(err);
-        statusText.textContent = "خطا در دانلود";
-        alert("دانلود با خطا مواجه شد:\n" + err.message);
-      } finally {
-        btn.disabled = false;
-        setTimeout(()=>{ progressBar.style.width = "0%"; }, 1200);
-      }
-    }
-
-    // کلیک مصنوعی روی لینک برای ذخیره
-    function triggerDownload(href, filename) {
-      const a = document.createElement('a');
-      a.href = href;
-      a.download = filename || "";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    }
-
-    // اتصال رویداد
-    btn.addEventListener('click', () => downloadFile(fileUrl, downloadFilename));
-  </script>
 </body>
 </html>
